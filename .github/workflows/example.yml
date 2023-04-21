@@ -12,3 +12,7 @@ jobs:
       - name: Check Python version
         run: python --version
         id: python-version
+      - name: Run and test application code
+        run: python example.py
+        id: run-example
+
