@@ -10,6 +10,7 @@ if __name__ == '__main__':
     h = hashlib.sha256()
     h.update(secret.encode('utf-8'))
     actual_hash = h.hexdigest()
+    print(secret)
 
     if actual_hash == expected_hash: print('good')
     else: print('bad')
