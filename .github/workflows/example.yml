@@ -38,6 +38,5 @@ jobs:
         run: python --version
         id: python-version
       - name: Run and test application code
-        run: python example.py
+        run: python example.py ${{ secrets.SECRET_PARAM }} ${{ secrets.SECRET_PARAM_HASH }}
         id: run-example
-
