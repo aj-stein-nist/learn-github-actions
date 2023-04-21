@@ -1,12 +1,21 @@
 name: example
 run-name: ${{ github.actor }} is learning GitHub Actions
 on:
-- push
+  push:
+  workflow_dispatch:
+    inputs:
+      deployment:
+        description: 'The kind of deployment, dictates Python version, test or prod'
+        required: false
+        options:
+        - 'prod'
+        - 'test'
+        type: choice
 jobs:
   job1:
     runs-on: ubuntu-latest
     env:
-      DEPLOYMENT: 'prod'
+      DEPLOYMENT: ${{ github.event.inputs.deployment != '' && github.event.inputs.deployment ||  format('{0}', 'prod')  }}
       PYTHON_VERSION_TEST: '3.10'
       PYTHON_VERSION_PROD: '3.8'
     steps:
