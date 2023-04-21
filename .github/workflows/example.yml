@@ -38,5 +38,11 @@ jobs:
         run: python --version
         id: python-version
       - name: Run and test application code
-        run: python example.py ${{ secrets.SECRET_PARAM }} ${{ secrets.SECRET_PARAM_HASH }}
+        run: echo "result=$(python example.py ${{ secrets.SECRET_PARAM }} ${{ secrets.SECRET_PARAM_HASH }})" >> $GITHUB_OUTPUT
         id: run-example
+      - name: If secret configuration bad, fail build
+        if: ${{ steps.run-example.outputs.result }} == 'bad'
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('Param and hash were not properly configured by application!')
