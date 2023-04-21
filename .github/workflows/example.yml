@@ -6,17 +6,25 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     env:
+      DEPLOYMENT: 'prod'
       PYTHON_VERSION_TEST: '3.10'
       PYTHON_VERSION_PROD: '3.8'
     steps:
       - name: Check out repo code first
         uses: actions/checkout@v3
         id: checkout
-      - name: Setup Python
+      - name: Setup Python for ${{ env.DEPLOYMENT }}
+        if: env.DEPLOYMENT == 'test'
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION_TEST }}
-        id: setup-python
+        id: setup-python-test
+      - name: Setup Python for ${{ env.DEPLOYMENT }}
+        if: env.DEPLOYMENT == 'prod'
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION_PROD }}
+        id: setup-python-prod
       - name: Check Python version
         run: python --version
         id: python-version
