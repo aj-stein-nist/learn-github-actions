@@ -1,0 +1,14 @@
+name: example
+run-name: ${{ github.actor }} is learning GitHub Actions
+on:
+- push
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        id: setup-python
+      - name: Check Python version
+        run: python --version
+        id: python-version
